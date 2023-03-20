@@ -13,7 +13,7 @@
 python main.py <Compression_technique> --i <image_path> <optional_arguments>
 ```
 ```
-python main.py RLE -i P_image.png 
+python main.py RLE --i P_image.png 
 ```
 
 ### For help

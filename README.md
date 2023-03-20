@@ -36,9 +36,9 @@ optional arguments: <br>
   --q Q                 PCA: Quantization Value   <br>
 
 ### NOTE: 
-Every technique have some deafult parameters. <br>
+Every technique have some deafult parameters. If the main file with technique name, the python script will run beacuse manual is optional feature.<br>
 **Command**
 ```
 python main.py <Compression_technique>
 ```
-This will also work.
+

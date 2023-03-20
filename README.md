@@ -39,7 +39,7 @@ positional arguments:
     --q  Q            PCA: Quantization Value   
 ```
 ### NOTE: 
-Every technique have some deafult parameters. If the main file with technique name, the python script will run beacuse manual is optional feature.<br>
+Every technique has some default parameters. The main file can also run with just technique names because of these default parameters.<br>
 **Command**
 ```
 python main.py <Compression_technique>

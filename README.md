@@ -1,11 +1,11 @@
 # Image-Compression
 
 ## Image Compression techniques
-1. RLE
-2. Huffman Coding
-3. Discrete Cosine Transform(DCT) with  Quantization Scale
-4. Discrete Cosine Transform(DCT) with Number of Coefficient to keep
-5. Singular Value Decomposition(SVD)
+1. Run Length Encoding(RLE).
+2. Huffman Coding.
+3. Discrete Cosine Transform(DCT) with  Quantization Scale.
+4. Discrete Cosine Transform(DCT) with Number of Coefficient to keep.
+5. Singular Value Decomposition(SVD).
 6. Principal Component Analysis(PCA) with percentage value and quantization to apply.
 
 ### Command to perform compression 
@@ -15,7 +15,7 @@ python main.py <Compression_technique> --i <image_path> <optional_arguments> <br
 ### For help
 python main.py -h <br>
 
-usage: main.py [-h] [--i I] [--s S] [--c C] [--p P] [--q Q] {RLE,HuffC,DCT_QM,DCT_COEFF,SVD,PCA} <br>
+usage: main.py [-h] [--i I] [--s S] [--c C] [--p P] [--q Q] {RLE, HuffC, DCT_QM, DCT_COEFF, SVD, PCA} <br>
 
 Image Compression via diff techniques <br>
 positional arguments:

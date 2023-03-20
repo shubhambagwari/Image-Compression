@@ -1,69 +1,56 @@
-from PIL import Image
-# import comp34
+import cv2
+import numpy as np
+import pickle
 
-def run_length_encode(image):
-    """
-    Run-length encode a grayscale image.
-
-    Parameters:
-        image (PIL.Image): The input grayscale image.
-
-    Returns:
-        bytes: The encoded image data.
-    """
-    data = bytearray()
-    width, height = image.size
-    run = 0
-    prev = None
-
-    for y in range(height):
-        for x in range(width):
-            pixel = image.getpixel((x, y))
-            if pixel == prev:
-                run += 1
-            else:
-                if prev is not None:
-                    data.append(run)
-                    data.append(prev)
-                prev = pixel
-                run = 1
-
-        # Flush the last run of pixels for the current row.
-        data.append(run)
-        data.append(prev)
-        prev = None
-        run = 0
-
-    return bytes(data)
+# RLE Compression function
+def rle_compress(channel):
+    compressed_data = []
+    prev_pixel = None
+    count = 0
+    
+    for pixel in channel.flat:
+        if pixel == prev_pixel:
+            count += 1
+        else:
+            if prev_pixel is not None:
+                compressed_data.append((prev_pixel, count))
+            prev_pixel = pixel
+            count = 1
+    
+    # Add the last run
+    compressed_data.append((prev_pixel, count))
+    
+    return compressed_data
 
 
-def run_length_decode(data, width, height):
-    """
-    Run-length decode a grayscale image.
-
-    Parameters:
-        data (bytes): The encoded image data.
-        width (int): The width of the original image.
-        height (int): The height of the original image.
-
-    Returns:
-        PIL.Image: The decoded grayscale image.
-    """
-    image = Image.new('L', (width, height))
-    x = 0
-    y = 0
-    i = 0
-
-    while i < len(data):
-        run = data[i]
-        value = data[i + 1]
-        i += 2
-
-        for j in range(run):
-            image.putpixel((x, y), value)
-            x += 1
-            if x >= width:
-                x = 0
-                y += 1
-
-    return image
+# RLE decompress function
+def rle_decompress(compressed_data, width, height):
+    y_data = []
+    cr_data = []
+    cb_data = []
+    
+    for channel_name in ['y', 'cr', 'cb']:
+        channel_compressed = compressed_data[channel_name]
+        channel_data = []
+        
+        for pixel, count in channel_compressed:
+            channel_data += [pixel] * count
+        
+        # Pad the data to fill the image dimensions
+        channel_data += [0] * (width*height - len(channel_data))
+        
+        if channel_name == 'y':
+            y_data = channel_data
+        elif channel_name == 'cr':
+            cr_data = channel_data
+        else:
+            cb_data = channel_data
+    
+    # Merge the color channels into a single image
+    merged_data = np.stack((y_data, cr_data, cb_data), axis=-1)
+    merged_data = merged_data.reshape(height, width, 3)
+    
+    # Convert the image back to BGR color space
+    decompressed_image = cv2.cvtColor(merged_data, cv2.COLOR_YCR_CB2BGR)
+    
+    return decompressed_image

@@ -9,11 +9,15 @@
 6. Principal Component Analysis(PCA) with percentage value and quantization to apply.
 
 ### Command to perform compression 
-python main.py <Compression_technique> --i <image_path> <optional_arguments> <br>
-     eg: python main.py RLE -i P_image.png 
- 
+```
+python main.py <Compression_technique> --i <image_path> <optional_arguments>
+python main.py RLE -i P_image.png 
+```
+
 ### For help
-python main.py -h <br>
+```
+python main.py -h 
+```
 
 usage: main.py [-h] [--i I] [--s S] [--c C] [--p P] [--q Q] {RLE, HuffC, DCT_QM, DCT_COEFF, SVD, PCA} <br>
 
@@ -31,5 +35,8 @@ optional arguments: <br>
 
 ### NOTE: 
 Every technique have some deafult parameters. <br>
-Command: python main.py <Compression_technique>   <br>
+**Command**
+```
+python main.py <Compression_technique>
+```
 This will also work.

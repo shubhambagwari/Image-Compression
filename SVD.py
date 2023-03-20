@@ -3,7 +3,7 @@ import numpy as np
 
 def svd_compress(image_path):
     # Load image
-    img = cv2.imread('P_image.png', cv2.IMREAD_COLOR)
+    img = cv2.imread(image_path, cv2.IMREAD_COLOR)
 
     # Convert image to numpy array
     A = np.asarray(img)

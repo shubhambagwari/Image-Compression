@@ -17,24 +17,24 @@ import SVD
 import PCA
 import PSNR
 import time
+import argparse
+parser = argparse.ArgumentParser(description="Image Compression via diff techniques")  
+FUNCTION_MAP = {'RLE' : RLE,
+                'HuffC' : HuffC,
+                'DCT_QM' : DCT_QM,
+                'DCT_COEFF' : DCT_COEFF,
+                'SVD' : SVD,
+                'PCA' : PCA}
+parser.add_argument('command', choices=FUNCTION_MAP.keys())
+# parser.add_argument("RLEm",help="Run-length encoding technique")
+parser.add_argument("--i", default='.\\P_image.png', help="Give image path")
+parser.add_argument("--s", default= 0.1, type=str, help="DCT_QM: Quantization Scale")
+parser.add_argument("--c", default= 2, type=int, help="DCT_COEFF: Number of Coefficient to keep")
+parser.add_argument("--p", default= 50, type=int,help="PCA: Varaiance/Percentage")
+parser.add_argument("--q",default= 2, type=int, help="PCA: Quantization Value ")
 
 if __name__ == "__main__":
-    import argparse
-
-    parser = argparse.ArgumentParser(description="Image Compression via diff techniques")  
-    FUNCTION_MAP = {'RLE' : RLE,
-                    'HuffC' : HuffC,
-                    'DCT_QM' : DCT_QM,
-                    'DCT_COEFF' : DCT_COEFF,
-                    'SVD' : SVD,
-                    'PCA' : PCA}
-    parser.add_argument('command', choices=FUNCTION_MAP.keys())
-    # parser.add_argument("RLEm",help="Run-length encoding technique")
-    parser.add_argument("--i", default='.\\P_image.png', help="Give image path")
-    parser.add_argument("--s", default= 0.1, type=str, help="DCT_QM: Quantization Scale")
-    parser.add_argument("--c", default= 2, type=str, help="DCT_COEFF: Number of Coefficient to keep")
-    parser.add_argument("--p", default= 50, type=str, help="PCA: Varaiance/Percentage")
-    parser.add_argument("--q",default= 2, help="PCA: Quantization Value ")
+    
     args = parser.parse_args()
     func = FUNCTION_MAP[args.command]
 
@@ -132,6 +132,7 @@ if __name__ == "__main__":
     elif args.command == 'PCA':
         start_time = time.time()
         # Compression operation is being performed with will return values which help to genrate the final compressed image.
+        print(args.p)
         compressed_image= func.pca_transformed_color(input_path, args.p , args.q)
         end_time = time.time()
         filename = f'PCA_compressed_image_{args.p}_{args.q}.png'
